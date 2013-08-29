@@ -38,7 +38,7 @@ class TestContext( BaseContext ):
         )
         self.data_slider = Transform(
             translation=(0,0,0),
-            scale = (1/1800.,1,1,),
+            scale = (1/600.,1,1,),
             children = [
                 Shape(
                     appearance = Appearance(
@@ -49,8 +49,8 @@ class TestContext( BaseContext ):
                     ),
                     geometry = PointSet(
                         coord = self.coordinate,
-                        minSize = 10.0,
-                        maxSize = 10.0,
+                        minSize = 5.0,
+                        maxSize = 5.0,
                     ),
                 ),
             ],
@@ -75,7 +75,7 @@ class TestContext( BaseContext ):
             ]
         )
         self.transform = Transform(
-            translation = (.5,-2,0),
+            translation = (3,-2,0),
             children = [
                 self.data_slider,
                 self.axes,
