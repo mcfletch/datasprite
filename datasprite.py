@@ -15,7 +15,7 @@ from OpenGLContext.scenegraph.basenodes import *
 from OpenGLContext.events.timer import Timer
 
 class TestContext( BaseContext ):
-    initialPosition = (0,0,3) # set initial camera position, tutorial does the re-positioning
+    initialPosition = (0,0,10) # set initial camera position, tutorial does the re-positioning
     def OnInit( self ):
         """Load the image on initial load of the application"""
         print """Should see a sine wave fading from green to red"""
@@ -108,4 +108,5 @@ def test_log_reader():
     assert len(points) == 47748, len(points)
 
 if __name__ == "__main__":
+    # needs the data-file from 'ftp://ita.ee.lbl.gov/traces/epa-http.txt.Z' unzipped into 'epa-http.txt'
     TestContext.ContextMainLoop()
