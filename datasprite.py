@@ -31,7 +31,7 @@ class TestContext( BaseContext ):
         )
         self.transform = Transform(
                     translation = (-.5,0,0),
-                    scale = (1/60.,1./5,0.0),
+                    scale = (1/3600.,1./5,0.0),
                     children = [
                         Shape(
                             appearance = Appearance(
@@ -58,6 +58,7 @@ class TestContext( BaseContext ):
         self.time.register (self)
         self.time.start ()
         thread = threading.Thread( target = log_reader, args=('epa-http.txt',self.log_queue))
+        thread.setDaemon(True)
         thread.start()
         
     def OnTimerFraction( self, evt ):
@@ -74,14 +75,14 @@ class TestContext( BaseContext ):
         if to_retain:
             self.coordinate.point[:to_retain] = self.coordinate.point[-to_retain:]
         self.coordinate.point[-len(new):] = new
-        self.transform.translation = -new[0][0] - .5,0,0
-        #self.triggerRedraw()
+        self.transform.translation = (-new[0][0]/3600.) - .5,0,0
+        self.triggerRedraw()
     
 def log_reader( filename, queue ):
     """On event from the timer, generate new geometry"""
     for record in _log_reader_gen( filename ):
         queue.put( record, True )
-        time.sleep( .001 )
+        time.sleep( .01 )
 def _log_reader_gen( filename ):
     date_finder = re.compile( r'[[]\d{2}:(?P<hour>\d{2})[:](?P<minute>\d{2})[:](?P<second>\d{2})[]].*?(?P<size>[-0-9]+)$' )
     def as_size( x ):
