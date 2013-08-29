@@ -5,3 +5,9 @@ OpenGLContext
 PyVRML97
 PyVRML97_accelerate
 
+pillow
+#FontTools-TTX
+#http://downloads.sourceforge.net/project/fonttools/2.3/fonttools-2.3.tar.gz?r=&ts=1377749010
+TTFQuery
+
+pydispatcher
