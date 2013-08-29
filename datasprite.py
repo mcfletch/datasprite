@@ -1,6 +1,5 @@
 #! /usr/bin/env python
-'''PointSet object test (draw line of coloured dots)
-'''
+'''Datasprite hack-night demo, real-time log-file visualization'''
 import re
 import math
 import threading
@@ -20,20 +19,23 @@ class TestContext( BaseContext ):
     dataPoints = 3600
     def OnInit( self ):
         """Load the image on initial load of the application"""
-        print """Should see a sine wave fading from green to red"""
+        print """Each dot is a request (y shows data transferred)"""
         self.log_queue = Queue.Queue( maxsize=self.dataPoints )
         self.coordinate = Coordinate(
             point = [(0,0,0)]*self.dataPoints,
         )
+        # should *not* be necessary, but is, to prevent a cached 
+        # bounding volume from dropping the graph
         boundingvolume.cacheVolume(
             self.coordinate,
             boundingvolume.UnboundedVolume(),
         )
-            
+        # just an arbitrary format/style for the text
         self.fontstyle = FontStyle(
             family='SANS', format = 'bitmap',
             justify = 'BEGIN',
         )
+        #
         self.color = Color(
             color = [1.0,0.0,0.0],
         )
