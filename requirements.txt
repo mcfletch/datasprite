@@ -1,7 +1,6 @@
 PyOpenGL
 PyOpenGL_accelerate
 numpy
-pygame
 OpenGLContext
 PyVRML97
 PyVRML97_accelerate
