@@ -17,12 +17,13 @@ from OpenGLContext.events.timer import Timer
 
 class TestContext( BaseContext ):
     initialPosition = (0,0,10) # set initial camera position, tutorial does the re-positioning
+    dataPoints = 3600
     def OnInit( self ):
         """Load the image on initial load of the application"""
         print """Should see a sine wave fading from green to red"""
-        self.log_queue = Queue.Queue( maxsize=600 )
+        self.log_queue = Queue.Queue( maxsize=self.dataPoints )
         self.coordinate = Coordinate(
-            point = [(0,0,0)]*600,
+            point = [(0,0,0)]*self.dataPoints,
         )
         boundingvolume.cacheVolume(
             self.coordinate,
@@ -72,6 +73,22 @@ class TestContext( BaseContext ):
                     (6,'1MB'),
                     (9,'1GB'),
                 ]
+            ] + [
+                Transform( 
+                    translation = (coord,-.75,0),
+                    children = [
+                        Shape( geometry = Text(
+                            string = [label],
+                            fontStyle = self.fontstyle,
+                        ))
+                    ],
+                )
+                for (coord,label)in [
+                    (0,'now'),
+                    (-1200*self.data_slider.scale[0],'-20m'),
+                    (-2400*self.data_slider.scale[0],'-40m'),
+                    (-3600*self.data_slider.scale[0],'-60m'),
+                ]
             ]
         )
         self.transform = Transform(
@@ -86,8 +103,8 @@ class TestContext( BaseContext ):
                 self.transform,
             ],
         )
-        self.time = Timer( duration = .1, repeating = 1 )
-        self.time.addEventHandler( "cycle", self.OnTimerFraction )
+        self.time = Timer( duration = 1, repeating = 1 )
+        self.time.addEventHandler( "fraction", self.OnTimerFraction )
         self.time.register (self)
         self.time.start ()
         thread = threading.Thread( target = log_reader, args=('epa-http.txt',self.log_queue))
